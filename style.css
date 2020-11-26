@@ -121,3 +121,22 @@ body {
   cursor: pointer;
   font-weight: bold;
 }
+
+.blockquote-custom {
+  max-height: fit-content;
+  min-width: fit-content;
+  position: relative;
+  font-size: 0.8rem;
+}
+
+.blockquote-custom-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -25px;
+  left: 50px;
+}
