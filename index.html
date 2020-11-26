@@ -97,75 +97,93 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
-        // function showLoginPage(){
-        //     $('#login-page').show()
-        //     $('#main-page').hide()
-        // }
-        // function showMainPage(){
-        //     $('#login-page').hide()
-        //     $('#main-page').show()
-        //     $('#home-page').hide()
-        //     fetchAllPhoto()
-        // }
-        // function login(){
-        //     $('#form-login').on('submit', (e)=>{
-        //         e.preventDefault()
-        //         const email = $('#email').val()
-        //         const password = $('#password').val()
-        //         $.ajax({
-        //             url: 'http://localhost:3000/login',
-        //             method: 'POST',
-        //             data:{
-        //                 email,
-        //                 password
-        //             }
-        //         })
-        //             .done(response => {
-        //                 console.log(response);
-        //                 localStorage.setItem('access_token', response.access_token)
-        //                 showMainPage()
-        //             })
-        //             .fail(xhr => console.log(xhr))
-        //     })
-        // }
-        // function fetchAllPhoto(){
-        //     $.ajax({
-        //         method:'GET',
-        //         url:'http://localhost:3000/photos',
-        //         headers:{
-        //             access_token: localStorage.getItem('access_token')
-        //         }
-        //     })
-        //         .done(response =>{
-        //             $('#my-gallery-page').empty()
-        //             console.log(response);
-        //             response.result.forEach((e)=>{
-        //                 $('#my-gallery-page').append(`
-        //                 <div class="card-custom uk-card uk-card-default uk-card-hover uk-card-body">
-        //                     <i class="bookmark far fa-minus-square"></i>
-        //                     <img src="${e.imageUrl}" alt="image">
-        //                 </div>
-        //                 `)
-        //             })
-        //         })
-        //         .fail(xhr => console.log(xhr))
-        // }
-        // $(document).ready(function(){
-        //     showLoginPage()
-        //     $('#form-login').on('submit', (e)=>{
-        //         e.preventDefault()
-        //         login()
-        //     })
-        //     if(localStorage.getItem('access_token')){
-        //         showMainPage()
-        //     }else{
-        //         showLoginPage()
-        //     }
-        //     $('#btn-logout').on('click', (e)=>{
-        //         localStorage.removeItem('access_token')
-        //         showLoginPage()
-        //     })
-        // })
+        function showLoginPage(){
+            $('#login-page').show()
+            $('#main-page').hide()
+        }
+        function showMainPage(){
+            $('#login-page').hide()
+            $('#main-page').show()
+            $('#home-page').hide()
+            fetchAllPhoto()
+        }
+        function login(){
+            $('#form-login').on('submit', (e)=>{
+                e.preventDefault()
+                const email = $('#email').val()
+                const password = $('#password').val()
+                $.ajax({
+                    url: 'http://localhost:3000/login',
+                    method: 'POST',
+                    data:{
+                        email,
+                        password
+                    }
+                })
+                    .done(response => {
+                        console.log(response);
+                        localStorage.setItem('access_token', response.access_token)
+                        showMainPage()
+                    })
+                    .fail(xhr => console.log(xhr))
+            })
+        }
+        function fetchAllPhoto(){
+            $.ajax({
+                method:'GET',
+                url:'http://localhost:3000/photos',
+                headers:{
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+                .done(response =>{
+                    $('#my-gallery-page').empty()
+                    console.log(response);
+                    response.result.forEach((e)=>{
+                        $('#my-gallery-page').append(`
+                        <div class="card-custom uk-card uk-card-default uk-card-hover uk-card-body">
+                            <i class="bookmark far fa-minus-square"></i>
+                            <img src="${e.imageUrl}" alt="image">
+                        </div>
+                        `)
+                    })
+                })
+                .fail(xhr => console.log(xhr))
+        }
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                url:'http://localhost:3000/users/googleLogin',
+                method: 'POST',
+                data:{
+                    access_token: id_token
+                }
+            })
+                .done(res=>{
+                    console.log(res);
+                    localStorage.setItem('access_token',res.access_token)
+                    isLoggedIn()
+                })
+                .fail(err=>{
+                    console.log(err);
+                })
+        }
+        $(document).ready(function(){
+            showLoginPage()
+            $('#form-login').on('submit', (e)=>{
+                e.preventDefault()
+                login()
+            })
+            if(localStorage.getItem('access_token')){
+                showMainPage()
+            }else{
+                showLoginPage()
+            }
+            $('#btn-logout').on('click', (e)=>{
+                localStorage.removeItem('access_token')
+                showLoginPage()
+            })
+        })
     </script>
 </body>
 </html>
