@@ -165,9 +165,36 @@
             .fail(xhr => {
                 console.log(xhr)
             })
+            .always(() => {
+                $('#email').val("")
+                $('#password').val("")
+            })
             // $('#form-login').on('submit', (e)=>{
             //     e.preventDefault()
             // })
+        }
+
+        function register() {
+            const email = $('#email-register').val()
+            const password = $('#password-register').val()
+            $.ajax({
+                url: 'http://localhost:3000/register',
+                method: 'POST',
+                data: {
+                    email,
+                    password
+                }
+            })
+            .done(response => {
+                showLoginPage()
+            })
+            .fail(xhr => {
+                console.log(xhr)
+            })
+            .always(() => {
+                $('#email-register').val("")
+                $('#password-register').val("")
+            })
         }
 
         function fetchAllPhoto(){
