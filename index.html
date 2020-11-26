@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="845818014828-8500f37c1frc96sraq1l8bsc9hdim2s3.apps.googleusercontent.com">
     <!-- UIkit CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
@@ -36,8 +37,9 @@
                     </div>
                 </div>
                 <button type="submit" class="login-btn uk-button uk-button-primary">Login</button>
-            
-            </form>            
+                
+            </form><br>            
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
     </section>
 
@@ -102,6 +104,7 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.4/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.4/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
         function showQuotes() {
             $.ajax({
@@ -154,6 +157,7 @@
             //     e.preventDefault()
             // })
         }
+
         function fetchAllPhoto(){
             $.ajax({
                 method:'GET',
@@ -176,9 +180,10 @@
                 })
                 .fail(xhr => console.log(xhr))
         }
+
+
         $(document).ready(function(){
             showLoginPage()
-            showMainPage()
             $('#form-login').on('submit', (e)=>{
                 e.preventDefault()
                 login()
@@ -192,6 +197,25 @@
                 localStorage.removeItem('access_token')
                 showLoginPage()
             })
+
+            function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                url:'http://localhost:3000/users/googleLogin',
+                method: 'POST',
+                data:{
+                    access_token: id_token
+                }
+            })
+                .done(res=>{
+                    console.log(res);
+                    localStorage.setItem('access_token',res.access_token)
+                    isLoggedIn()
+                })
+                .fail(err=>{
+                    console.log(err);
+                })
+                }
         })
     </script>
 </body>
