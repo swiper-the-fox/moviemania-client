@@ -46,6 +46,15 @@
     <!-- MAIN PAGE -->
     <section id="main-page">
         <nav class="uk-navbar-container navbar-custom" uk-navbar>
+
+            <!-- TOLONG BUATKAN CARD UNTUK QUOTES -->
+            <div id="quotes">
+                <h5>
+    
+                </h5>
+            </div>
+            <!-- TOLONG BUATKAN CARD UNTUK QUOTES -->
+
             <div class="uk-navbar-left">
         
                 <ul class="uk-navbar-nav">
@@ -97,37 +106,58 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
+        function showQuotes() {
+            $.ajax({
+                url: 'http://ron-swanson-quotes.herokuapp.com/v2/quotes',
+                method: 'GET',
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                $("#quotes").empty()
+                $("#quotes").append(`${response}`)
+            })
+            .fail((xhr, textStatus) => {
+                console.log(xhr)
+            })
+        }
+
         function showLoginPage(){
             $('#login-page').show()
             $('#main-page').hide()
         }
+
         function showMainPage(){
             $('#login-page').hide()
             $('#main-page').show()
             $('#home-page').hide()
             fetchAllPhoto()
+            showQuotes()
         }
         function login(){
-            $('#form-login').on('submit', (e)=>{
-                e.preventDefault()
-                const email = $('#email').val()
-                const password = $('#password').val()
-                $.ajax({
-                    url: 'http://localhost:3000/login',
-                    method: 'POST',
-                    data:{
-                        email,
-                        password
+            const email = $('#email').val()
+            const password = $('#password').val()
+            $.ajax({
+                url: 'http://localhost:3000/login',
+                method: 'POST',
+                data:{
+                    email,
+                    password
                     }
-                })
-                    .done(response => {
-                        console.log(response);
-                        localStorage.setItem('access_token', response.access_token)
-                        showMainPage()
-                    })
-                    .fail(xhr => console.log(xhr))
             })
+            .done(response => {
+                localStorage.setItem('access_token', response.access_token)
+                showMainPage()
+            })
+            .fail(xhr => {
+                console.log(xhr)
+            })
+            // $('#form-login').on('submit', (e)=>{
+            //     e.preventDefault()
+            // })
         }
+
         function fetchAllPhoto(){
             $.ajax({
                 method:'GET',
@@ -150,7 +180,25 @@
                 })
                 .fail(xhr => console.log(xhr))
         }
-        function onSignIn(googleUser) {
+
+
+        $(document).ready(function(){
+            showLoginPage()
+            $('#form-login').on('submit', (e)=>{
+                e.preventDefault()
+                login()
+            })
+            if(localStorage.getItem('access_token')){
+                showMainPage()
+            }else{
+                showLoginPage()
+            }
+            $('#btn-logout').on('click', (e)=>{
+                localStorage.removeItem('access_token')
+                showLoginPage()
+            })
+
+            function onSignIn(googleUser) {
             var id_token = googleUser.getAuthResponse().id_token;
             $.ajax({
                 url:'http://localhost:3000/users/googleLogin',
@@ -167,22 +215,7 @@
                 .fail(err=>{
                     console.log(err);
                 })
-        }
-        $(document).ready(function(){
-            showLoginPage()
-            $('#form-login').on('submit', (e)=>{
-                e.preventDefault()
-                login()
-            })
-            if(localStorage.getItem('access_token')){
-                showMainPage()
-            }else{
-                showLoginPage()
-            }
-            $('#btn-logout').on('click', (e)=>{
-                localStorage.removeItem('access_token')
-                showLoginPage()
-            })
+                }
         })
     </script>
 </body>
