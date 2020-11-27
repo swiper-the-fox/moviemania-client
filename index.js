@@ -17,7 +17,7 @@ const Toast = Swal.mixin({
 function onSignIn(googleUser) {
 
   var google_access_token = googleUser.getAuthResponse().id_token;
-  console.log(google_access_token);
+  // console.log(google_access_token);
 
   $.ajax({
       method: 'POST',
@@ -27,7 +27,7 @@ function onSignIn(googleUser) {
       }
     })
     .done(response => {
-      console.log(response);
+      // console.log(response);
       let access_token = response.access_token
       localStorage.setItem('access_token', access_token)
       $('#allMovies').show()
@@ -199,6 +199,7 @@ function movies() {
   $('#trailerComingSoon').hide()
   $('#quotes').show()
   $('#bg-video').hide()
+  fetchNewsapi()
 
 }
 
@@ -503,7 +504,6 @@ function deleteFavoriteMovie(id) {
 }
 
 function fetchNewsapi(){
-  console.log('fetchnews');
   $.ajax({
       url:'http://localhost:3000/movies/newsapi',
       method: 'GET',
@@ -512,18 +512,52 @@ function fetchNewsapi(){
       }
   })
       .done(res=>{
-          console.log('newsapi');
-          res.articles.forEach(el=>{
-              console.log(el.author);
-              console.log(el.title);
-              console.log(el.content);
-              console.log(el.description);
-              console.log(el.url);
-              console.log(el.urlToImage);
+        $('#newsapi').empty()
+          // console.log('newsapi');
+          console.log(res.articles);
+          // res.articles.forEach(el=>{
+          //     console.log(el.author);
+          //     console.log(el.title);
+          //     console.log(el.content);
+          //     console.log(el.description);
+          //     console.log(el.url);
+          //     console.log(el.urlToImage);
+          // })
+          /*
+          <div class="movie-card">
+                  <div class="movie-header">
+                    <img src=${element.poster_path} width="100%" height="100%">
+                  </div>
+                  <div class="movie-content">
+                    <div class="movie-content-header">
+                      <a href="#" onclick="selectMovie(${element.id}, event)">
+                        <h3 class="movie-title">${element.title}</h3>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+          */
+          
+          res.articles.forEach((el,i)=>{
+            if(el.description.length < 90){
+              $('#newsapi').append(`
+              <div class="movie-card">
+                    <div class="movie-header">
+                      <img src=${el.urlToImage} width="100%" height="100%">
+                    </div>
+                <div class="movie-content">
+                  <h4>${el.title}</h4>
+                  <h5>${el.description}</h5>
+                  <a href="${el.url}">SOURCE</a>
+                </div>
+              </div>
+              
+              `)
+            }
           })
       })
       .fail(err=>{
           console.log('errnewsapi');
           console.log(err);
-      })
+        })
 }
