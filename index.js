@@ -26,7 +26,7 @@ function onSignIn(googleUser) {
       }
     })
     .done(response => {
-      console.log(response);
+      // console.log(response);
       let access_token = response.access_token
       localStorage.setItem('access_token', access_token)
       $('#allMovies').show()
@@ -213,7 +213,7 @@ function movies() {
   $('#quotes').show()
   $('#bg-video').hide()
   $('#news').show()
-  $('#quotes').show()
+
 }
 
 function viewMovies() {
@@ -223,7 +223,7 @@ function viewMovies() {
 
   $.ajax({
       method: 'GET',
-      url: `${SERVER}/movie`,
+      url: `${SERVER}/movies`,
       headers: {
         access_token: access_token
       }
@@ -283,7 +283,7 @@ function oneMovie(id, e) {
 
   $.ajax({
       method: 'GET',
-      url: `${SERVER}/movie/${id}`,
+      url: `${SERVER}/movies/${id}`,
       headers: {
         access_token: access_token
       }
@@ -433,7 +433,7 @@ function search(e) {
 
   $.ajax({
       method: 'GET',
-      url: `${SERVER}/movie/search?query=${search_index}`,
+      url: `${SERVER}/movies/search?query=${search_index}`,
       headers: {
         access_token: access_token
       }
