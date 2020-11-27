@@ -519,33 +519,68 @@ function deleteFavoriteMovie(id) {
     })
 }
 
+// function fetchNewsapi(){
+//   $.ajax({
+//       url:SERVER + '/movie/newsapi',
+//       method: 'GET',
+//       headers:{
+//           access_token: localStorage.getItem('access_token')
+//       }
+//   })
+//   .done(response => {
+//     $('#news').empty()
+//     console.log(response)
+//     $('#news').append(`
+//     <div class="row">
+//     <div class="col-lg-6 mx-auto">
+//     <blockquote class="blockquote blockquote-custom bg-white p-5 shadow rounded">
+//     <h4>Flash News</h4>
+//     <hr>
+//     <h3>${response.articles[0].title}</h3>
+//     <p>${response.articles[0].description}</p>
+//     <a href="${response.articles[0].url}">read more</a>
+//     </blockquote>
+//     </div>
+//     </div>`)
+//   })
+//   .fail(err=>{
+//       console.log(err);
+//   })
+// }
+
 function fetchNewsapi(){
   $.ajax({
-      url:SERVER + '/movie/newsapi',
+      url: SERVER + '/movie/newsapi',
       method: 'GET',
       headers:{
           access_token: localStorage.getItem('access_token')
       }
   })
-  .done(response => {
-    $('#news').empty()
-    console.log(response)
-    $('#news').append(`
-    <div class="row">
-    <div class="col-lg-6 mx-auto">
-    <blockquote class="blockquote blockquote-custom bg-white p-5 shadow rounded">
-    <h4>Flash News</h4>
-    <hr>
-    <h3>${response.articles[0].title}</h3>
-    <p>${response.articles[0].description}</p>
-    <a href="${response.articles[0].url}">read more</a>
-    </blockquote>
-    </div>
-    </div>`)
-  })
-  .fail(err=>{
-      console.log(err);
-  })
+      .done(res=>{
+        $('#news').empty()
+          console.log(res.articles);
+          res.articles.forEach((el,i)=>{
+            if(el.description.length < 90){
+              $('#news').append(`
+              <div class="movie-card col-12">
+                    <div class="movie-header">
+                      <img class ="card-img-overlay" src=${el.urlToImage}>
+                    </div>
+                <div class="movie-content">
+                  <h4>${el.title}</h4>
+                  <h5>${el.description}</h5>
+                  <a href="${el.url}">SOURCE</a>
+                </div>
+              </div>
+              
+              `)
+            }
+          })
+      })
+      .fail(err=>{
+          console.log('errnewsapi');
+          console.log(err);
+        })
 }
 
 function fetchQuotes() {
