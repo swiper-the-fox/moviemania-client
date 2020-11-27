@@ -14,54 +14,77 @@
 </head>
 <body>
     <!-- LOGIN - PAGE -->
-    <section id="login-page">
+    <section id="landing-page">
         <div class="bg-video">
             <video class="bg-video-content" autoplay muted loop>
                 <source src="assets/video.mp4" type="video/mp4">
                     not supported
             </video>
         </div>
-        <div class="center">
-            <h1 style="margin-bottom: 3rem;" class="welcome">🎬moviemania🎞</h1>
-            <form id="form-login">
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input id="email" class="uk-input" type="email" placeholder="email here">
+        <!-- FORM LOGIN -->
+        <div id="login-page">
+            <div class="center">
+                <h1 style="margin-bottom: 3rem;" class="welcome">🎬log in to moviemania🎞</h1>
+                <form id="form-login">
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: user"></span>
+                            <input id="email" class="uk-input" type="email" placeholder="email here">
+                        </div>
                     </div>
-                </div>
-            
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                        <input id="password" class="uk-input" type="password" placeholder="password here">
-                    </div>
-                </div>
-                <button type="submit" class="login-btn uk-button uk-button-primary">Login</button>
                 
-            </form><br>            
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                            <input id="password" class="uk-input" type="password" placeholder="password here">
+                        </div>
+                    </div>
+                    <button type="submit" class="login-btn uk-button uk-button-primary">LOGIN</button>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <p>dont have any account?, you can go through <a onclick="register()">register page</a></p>
+                </form><br>            
+            </div>
         </div>
+        <!-- END FORM LOGIN -->
+
+        <!-- FORM REGISTER -->
+        <div id="register-page">
+            <div class="center">
+                <h1 style="margin-bottom: 3rem;" class="welcome">🎬register to moviemania🎞</h1>
+                <form id="form-login">
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: user"></span>
+                            <input id="email-register" class="uk-input" type="email" placeholder="your email">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                            <input id="password-register" class="uk-input" type="password" placeholder="must be strong enough">
+                        </div>
+                    </div>
+                    <button type="submit" class="login-btn uk-button uk-button-primary">REGISTER</button>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <p>already have an account?, you can go through <a onclick="showLoginPage()">here</a></p>
+                </form><br>            
+            </div>
+        </div>
+        <!-- END FORM REGISTER -->
     </section>
 
     <!-- MAIN PAGE -->
     <section id="main-page">
         <nav class="uk-navbar-container navbar-custom" uk-navbar>
-
-            
-
             <div class="uk-navbar-left">
-        
                 <ul class="uk-navbar-nav">
                     <li>
                         <a href="#"><i class="uk-form-icon" uk-icon="icon: video-camera"></i></a>
                     </li>
                     <li><a href="#">Moviebox🗃</a></li>
                 </ul>
-        
             </div>
             <div class="uk-navbar-right">
-        
                 <ul class="uk-navbar-nav">
                     <li>
                         <a href="#" id="btn-logout">Logout</a>
@@ -136,12 +159,16 @@
         }
 
         function showLoginPage(){
+            $('#landing-page').show()
             $('#login-page').show()
+            $('#register-page').hide()
             $('#main-page').hide()
         }
 
         function showMainPage(){
+            $('#landing-page').hide()
             $('#login-page').hide()
+            $('#register-page').hide()
             $('#main-page').show()
             $('#home-page').hide()
             fetchAllPhoto()
