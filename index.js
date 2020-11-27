@@ -34,7 +34,7 @@ function onSignIn(googleUser) {
       $('#content_navbar').show()
       $('#login_page').hide()
       $('#landing_navbar').hide()
-
+      $('#quotes').hide()
       //ngosongin isi form after login
       $('#email_login').val('')
       $('#password_login').val('')
@@ -95,6 +95,7 @@ function loginPage() {
   $('#selectedMovie').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
 }
 
 function login(e) {
@@ -149,6 +150,7 @@ function registerPage() {
   $('#selectedMovie').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
 }
 
 
@@ -194,6 +196,7 @@ function movies() {
   $('#selectedMovie').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').show()
 
 }
 
@@ -253,6 +256,7 @@ function selectMovie(id, e) {
   $('#searchMovies').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
 }
 
 function oneMovie(id, e) {
