@@ -10,6 +10,10 @@ body {
   color: #010b26;
 }
 
+.bg-info {
+  background-color:#202020!important;
+}
+
 
 * {
   -webkit-transition: 300ms;
