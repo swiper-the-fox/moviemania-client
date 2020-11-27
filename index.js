@@ -131,8 +131,7 @@ function login(e) {
     .fail(err => {
       Swal.fire(
         'Error!',
-        err.responseJSON.msg,
-        'ERROR'
+        'Invalid email/password'
       )
     })
 }
@@ -177,7 +176,7 @@ function register(e) {
     .fail(err => {
       Swal.fire(
         'Error!',
-        err.responseJSON.msg,
+        err.responseJSON.message[0],
         'ERROR'
       )
     })
@@ -495,3 +494,28 @@ function deleteFavoriteMovie(id) {
     })
 }
 
+function fetchNewsapi(){
+  console.log('fetchnews');
+  $.ajax({
+      url:'http://localhost:3000/movies/newsapi',
+      method: 'GET',
+      headers:{
+          access_token: localStorage.getItem('access_token')
+      }
+  })
+      .done(res=>{
+          console.log('newsapi');
+          res.articles.forEach(el=>{
+              console.log(el.author);
+              console.log(el.title);
+              console.log(el.content);
+              console.log(el.description);
+              console.log(el.url);
+              console.log(el.urlToImage);
+          })
+      })
+      .fail(err=>{
+          console.log('errnewsapi');
+          console.log(err);
+      })
+}
