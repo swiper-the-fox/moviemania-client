@@ -17,7 +17,6 @@ const Toast = Swal.mixin({
 function onSignIn(googleUser) {
 
   var google_access_token = googleUser.getAuthResponse().id_token;
-  console.log(google_access_token);
 
   $.ajax({
       method: 'POST',
@@ -45,6 +44,8 @@ function onSignIn(googleUser) {
       })
 
       viewMovies()
+      fetchNewsapi()
+      fetchQuotes() 
     })
     .fail(err => {
       Swal.fire(
@@ -77,6 +78,9 @@ $(document).ready(function () {
   const access_token = localStorage.getItem('access_token')
   if (access_token) {
     viewMovies()
+    fetchNewsapi()
+    fetchQuotes() 
+
   } else {
     loginPage()
   }
@@ -95,8 +99,9 @@ function loginPage() {
   $('#selectedMovie').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
-  $('#quotes').hide()
   $('#bg-video').show()
+  $('#news').hide()
+  $('#quotes').hide()
 }
 
 function login(e) {
@@ -129,12 +134,18 @@ function login(e) {
         title: 'Signed in successfully'
       })
       viewMovies()
+      fetchNewsapi()
+      fetchQuotes()
     })
     .fail(err => {
       Swal.fire(
         'Error!',
         'Invalid email/password'
       )
+    })
+    .always(_ => {
+      $('#email').val('')
+      $('#password').val('')
     })
 }
 
@@ -151,6 +162,8 @@ function registerPage() {
   $('#selectedMovie').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
+  $('#news').hide()
   $('#quotes').hide()
 }
 
@@ -199,7 +212,8 @@ function movies() {
   $('#trailerComingSoon').hide()
   $('#quotes').show()
   $('#bg-video').hide()
-
+  $('#news').show()
+  $('#quotes').show()
 }
 
 function viewMovies() {
@@ -258,6 +272,8 @@ function selectMovie(id, e) {
   $('#searchMovies').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
+  $('#news').hide()
   $('#quotes').hide()
 }
 
@@ -345,6 +361,7 @@ function favourite() {
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
   $('#quotes').hide()
+  $('#news').hide()
 
   viewFavourites()
 }
@@ -361,7 +378,6 @@ function viewFavourites() {
       }
     })
     .done(response => {
-      // console.log(response)
       $('#fav-movies').empty()
       response.forEach(element => {
         $('#fav-movies').append(`
@@ -405,6 +421,7 @@ function viewSearch() {
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
   $('#quotes').hide()
+  $('#news').hide()
 }
 
 function search(e) {
@@ -503,27 +520,57 @@ function deleteFavoriteMovie(id) {
 }
 
 function fetchNewsapi(){
-  console.log('fetchnews');
   $.ajax({
-      url:'http://localhost:3000/movies/newsapi',
+      url:SERVER + '/movie/newsapi',
       method: 'GET',
       headers:{
           access_token: localStorage.getItem('access_token')
       }
   })
-      .done(res=>{
-          console.log('newsapi');
-          res.articles.forEach(el=>{
-              console.log(el.author);
-              console.log(el.title);
-              console.log(el.content);
-              console.log(el.description);
-              console.log(el.url);
-              console.log(el.urlToImage);
-          })
-      })
-      .fail(err=>{
-          console.log('errnewsapi');
-          console.log(err);
-      })
+  .done(response => {
+    $('#news').empty()
+    console.log(response)
+    $('#news').append(`
+    <div class="row">
+    <div class="col-lg-6 mx-auto">
+    <blockquote class="blockquote blockquote-custom bg-white p-5 shadow rounded">
+    <h4>Flash News</h4>
+    <hr>
+    <h3>${response.articles[0].title}</h3>
+    <p>${response.articles[0].description}</p>
+    <a href="${response.articles[0].url}">read more</a>
+    </blockquote>
+    </div>
+    </div>`)
+  })
+  .fail(err=>{
+      console.log(err);
+  })
+}
+
+function fetchQuotes() {
+  const access_token = localStorage.getItem('access_token')
+  $.ajax({
+    url: SERVER + '/movie/quotes',
+    method: 'GET',
+    headers: {
+      access_token : access_token
+    }
+  })
+  .done(response => {
+    $('#quotes').empty()
+    console.log(response)
+    $('#quotes').append(`
+    <div class="row">
+    <div class="col-lg-6 mx-auto">
+    <blockquote class="blockquote blockquote-custom bg-white p-5 shadow rounded">
+    <div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
+    <p class="mb-0 mt-2 font-italic">"${response}"</p>
+    </blockquote>
+    </div>
+    </div>`)
+  })
+  .fail(err => {
+    console.log(err, 'juga')
+  })
 }
