@@ -174,3 +174,34 @@
 * **Notes:**
 
   <_This is where all uncertainties, commentary, discussion etc. can go. I recommend timestamping and identifying oneself when leaving comments here._>
+
+### GET /movies/newsapi
+
+Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+Response:
+
+- status: 201
+- body:
+  ​
+
+```json
+{
+  "articles": "Array"
+}
+```
+- status: 500
+- body:
+```json
+{
+    "message": "internal server error"
+}
+```
