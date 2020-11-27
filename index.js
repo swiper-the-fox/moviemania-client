@@ -96,6 +96,7 @@ function loginPage() {
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
   $('#quotes').hide()
+  $('#bg-video').show()
 }
 
 function login(e) {
@@ -197,6 +198,7 @@ function movies() {
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
   $('#quotes').show()
+  $('#bg-video').hide()
 
 }
 
