@@ -342,6 +342,7 @@ function favourite() {
   $('#searchMovies').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
 
   viewFavourites()
 }
@@ -401,6 +402,7 @@ function viewSearch() {
   $('#searchMovies').show()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
 }
 
 function search(e) {
