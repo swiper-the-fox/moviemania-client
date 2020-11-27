@@ -1,46 +1,19 @@
-* {
-  margin: 0;
-  padding: 0;
-  z-index: 1;
-  box-sizing: border-box;
-}
+@import url("https://fonts.googleapis.com/css?family=Arimo:400,700");
 
 body {
-  font-family: 'Poppins', sans-serif;
+  height: 100%;
+  width: 100%;
+  background: #F6F6F6;
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #010b26;
 }
 
-.navbar-custom {
-  background-image: linear-gradient(to left, #000000, #202020) !important;
-  padding: 0 1.5rem;
-}
-
-.navbar-custom a {
-  color: white !important;
-  font-weight: bold;
-}
-
-.logo {
-  font-size: 2rem;
-  /* margin-left: 1rem; */
-}
-
-#login-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-}
-
-.center {
-  /* background-color: rgba(245, 246, 250,.8); */
-  /* width: 300px; */
-  /* height: 300px; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
+* {
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  z-index: 3;
 }
 
 .bg-video {
@@ -59,68 +32,88 @@ body {
   object-fit: cover;
 }
 
-.welcome {
-  color: white;
-  text-shadow: 2px 5px 10px black;
+.movie-card a {
+  text-decoration: none;
+  color: inherit;
 }
 
-#home-page, #my-gallery-page {
+.movie-card a:hover {
+  color: #6ABCEA;
+}
+
+.movie-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  max-width: 100%;
+  margin-top: 10vh;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
-.card-custom {
-  width: 300px;
-  height: 300px;
-  padding: 0 !important;
-  border-radius: 10px !important;
-  box-shadow: 2px 2px 15px black;
-  margin: 1rem;
+.movie-card {
+  background: grey;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 315px;
+  margin: 2em;
+  border-radius: 10px;
+  display: inline-block;
   position: relative;
 }
 
-.card-custom img {
-  height: 100% !important;
-  width: 100% !important;
-  object-fit: cover;
-  border-radius: 10px !important;
-}
-
-.card-custom .bookmark:hover {
-  transform: scale(1);
-}
-.bookmark {
+.removeFavorite {
   position: absolute;
-  right: 20px;
   top: 10px;
-  font-size: 40px;
-  color: white;
-  transition: transform .8s;
-  cursor: pointer;
+  left: 10px;
 }
 
-.card-custom .trash:hover {
-  transform: scale(1);
-}
-.trash {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  font-size: 40px;
-  color: white;
-  transition: transform .8s;
-  cursor: pointer;
+.movie-header {
+  padding: 0;
+  margin: 0;
+  height: 367px;
+  width: 100%;
+  display: block;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
-.login-btn{
-  width: 100% !important;
-  background-color: #202020;
+img .movie-poster {
+  background-size: cover;
+}
+
+.movie-card:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.movie-content {
+  padding: 18px 18px 24px 18px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.movie-content-header,
+.movie-info {
+  display: table;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.movie-title {
+  font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
-  font-weight: bold;
+  margin: 0 auto;
+  width: 100%;
+  display: table-cell;
+  color: white;
 }
 
 .blockquote-custom {
@@ -140,4 +133,19 @@ body {
   position: absolute;
   top: -25px;
   left: 50px;
+}
+
+
+@media screen and (max-width: 500px) {
+  .movie-card {
+    width: 95%;
+    max-width: 95%;
+    margin: 1em;
+    display: block;
+  }
+
+  .container {
+    padding: 0;
+    margin: 0;
+  }
 }
