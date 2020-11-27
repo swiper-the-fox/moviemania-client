@@ -166,13 +166,15 @@
         }
 
         function showMainPage(){
-            $('#landing-page').hide()
-            $('#login-page').hide()
-            $('#register-page').hide()
+
+            $('section').hide()
+            // $('#login-page').hide()
+            $('#home-page').show()
+
             $('#main-page').show()
-            $('#home-page').hide()
             fetchAllPhoto()
             showQuotes()
+            fetchNewsapi()
         }
         function login(){
             const email = $('#email').val()
@@ -249,13 +251,16 @@
 
 
         $(document).ready(function(){
-            showLoginPage()
-            $('#form-login').on('submit', (e)=>{
-                e.preventDefault()
-                login()
-            })
+            // $('section').show()
+            // showLoginPage()
+            // $('#form-login').on('submit', (e)=>{
+            //     e.preventDefault()
+            //     login()
+            // })
             if(localStorage.getItem('access_token')){
                 showMainPage()
+                $('section').show()
+                
             }else{
                 showLoginPage()
             }
@@ -264,25 +269,51 @@
                 showLoginPage()
             })
 
-            function onSignIn(googleUser) {
-            var id_token = googleUser.getAuthResponse().id_token;
+        })
+        function onSignIn(googleUser) {
+            let id_token = googleUser.getAuthResponse().id_token;
+            console.log(id_token);
             $.ajax({
-                url:'http://localhost:3000/users/googleLogin',
+                url:'http://localhost:3000/googleLogin',
                 method: 'POST',
                 data:{
                     access_token: id_token
                 }
             })
                 .done(res=>{
-                    console.log(res);
+                    console.log('googlelogin');
                     localStorage.setItem('access_token',res.access_token)
-                    isLoggedIn()
+                    showMainPage()
                 })
                 .fail(err=>{
                     console.log(err);
                 })
+        }
+        function fetchNewsapi(){
+            console.log('fetchnews');
+            $.ajax({
+                url:'http://localhost:3000/movies/newsapi',
+                method: 'GET',
+                headers:{
+                    access_token: localStorage.getItem('access_token')
                 }
-        })
+            })
+                .done(res=>{
+                    console.log('newsapi');
+                    res.articles.forEach(el=>{
+                        console.log(el.author);
+                        console.log(el.title);
+                        console.log(el.content);
+                        console.log(el.description);
+                        console.log(el.url);
+                        console.log(el.urlToImage);
+                    })
+                })
+                .fail(err=>{
+                    console.log('errnewsapi');
+                    console.log(err);
+                })
+        }
     </script>
 </body>
 </html>
