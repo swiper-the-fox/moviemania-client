@@ -96,6 +96,7 @@ function loginPage() {
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
   $('#quotes').hide()
+  $('#bg-video').show()
 }
 
 function login(e) {
@@ -197,6 +198,7 @@ function movies() {
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
   $('#quotes').show()
+  $('#bg-video').hide()
 
 }
 
@@ -342,6 +344,7 @@ function favourite() {
   $('#searchMovies').hide()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
 
   viewFavourites()
 }
@@ -401,6 +404,7 @@ function viewSearch() {
   $('#searchMovies').show()
   $('#comingSoonMovie').hide()
   $('#trailerComingSoon').hide()
+  $('#quotes').hide()
 }
 
 function search(e) {
